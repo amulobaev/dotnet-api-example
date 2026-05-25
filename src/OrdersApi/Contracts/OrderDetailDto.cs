@@ -13,6 +13,6 @@ public record OrderDetailDto(
     Guid Id,
     Guid CustomerId,
     OrderStatus Status,
-    decimal Total,
+    double Total,
     DateTimeOffset CreatedAt,
     List<OrderLineDto> Lines);

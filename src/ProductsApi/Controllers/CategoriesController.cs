@@ -6,7 +6,7 @@ namespace ProductsApi.Controllers;
 
 /// <summary>Категории продуктов</summary>
 [ApiController]
-[Route("categories")]
+[Route("api/categories")]
 [Produces("application/json")]
 [Tags("Categories")]
 public class CategoriesController : ControllerBase

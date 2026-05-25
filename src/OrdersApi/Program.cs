@@ -30,6 +30,7 @@ internal class Program
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 o.IncludeXmlComments(xmlPath);
+                o.CustomOperationIds(e => e.ActionDescriptor.RouteValues["action"]);
             });
 
         builder.Services.AddSingleton<IOrderRepository, OrderRepository>();

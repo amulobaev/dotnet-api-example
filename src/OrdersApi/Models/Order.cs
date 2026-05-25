@@ -16,7 +16,7 @@ public class Order
     public List<OrderLine> Lines { get; init; } = [];
 
     /// <summary>Итоговая сумма — вычисляется из позиций</summary>
-    public decimal Total => Lines.Sum(l => l.Quantity * l.UnitPrice);
+    public double Total => Lines.Sum(l => l.Quantity * l.UnitPrice);
 
     /// <summary>Дата и время создания</summary>
     public DateTimeOffset CreatedAt { get; init; } = DateTimeOffset.UtcNow;

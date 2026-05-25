@@ -4,7 +4,7 @@ namespace ProductsApi.Contracts;
 public record ProductDetailDto(
     Guid Id,
     string Name,
-    decimal Price,
+    double Price,
     int StockQuantity,
     Guid CategoryId,
     string? Description,

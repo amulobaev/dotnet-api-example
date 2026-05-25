@@ -63,8 +63,8 @@ public class OrderRepository : IOrderRepository
                 CreatedAt = DateTimeOffset.UtcNow.AddHours(-3),
                 Lines =
                 [
-                    new OrderLine { ProductId = product1, Quantity = 2, UnitPrice = 499.99m },
-                    new OrderLine { ProductId = product2, Quantity = 1, UnitPrice = 1299m }
+                    new OrderLine { ProductId = product1, Quantity = 2, UnitPrice = 499.99 },
+                    new OrderLine { ProductId = product2, Quantity = 1, UnitPrice = 1299 }
                 ]
             },
             new Order
@@ -75,7 +75,7 @@ public class OrderRepository : IOrderRepository
                 CreatedAt = DateTimeOffset.UtcNow.AddDays(-1),
                 Lines =
                 [
-                    new OrderLine { ProductId = product3, Quantity = 3, UnitPrice = 249.50m }
+                    new OrderLine { ProductId = product3, Quantity = 3, UnitPrice = 249.50 }
                 ]
             },
             new Order
@@ -86,8 +86,8 @@ public class OrderRepository : IOrderRepository
                 CreatedAt = DateTimeOffset.UtcNow.AddDays(-5),
                 Lines =
                 [
-                    new OrderLine { ProductId = product1, Quantity = 1, UnitPrice = 499.99m },
-                    new OrderLine { ProductId = product3, Quantity = 2, UnitPrice = 249.50m }
+                    new OrderLine { ProductId = product1, Quantity = 1, UnitPrice = 499.99 },
+                    new OrderLine { ProductId = product3, Quantity = 2, UnitPrice = 249.50 }
                 ]
             },
             new Order
@@ -98,7 +98,7 @@ public class OrderRepository : IOrderRepository
                 CreatedAt = DateTimeOffset.UtcNow.AddDays(-10),
                 Lines =
                 [
-                    new OrderLine { ProductId = product2, Quantity = 1, UnitPrice = 1299m }
+                    new OrderLine { ProductId = product2, Quantity = 1, UnitPrice = 1299 }
                 ]
             }
         };

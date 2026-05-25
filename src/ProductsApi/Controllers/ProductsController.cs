@@ -7,7 +7,7 @@ namespace ProductsApi.Controllers;
 
 /// <summary>Управление продуктами</summary>
 [ApiController]
-[Route("products")]
+[Route("api/products")]
 [Produces("application/json")]
 [Tags("Products")]
 public class ProductsController : ControllerBase

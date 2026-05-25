@@ -6,5 +6,5 @@ namespace ProductsApi.Contracts;
 public record UpdateProductRequest(
     [MinLength(1)] string? Name,
     string? Description,
-    [Range(0, double.MaxValue)] decimal? Price,
+    [Range(0, double.MaxValue)] double? Price,
     Guid? CategoryId);

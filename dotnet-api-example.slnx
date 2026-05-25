@@ -1,6 +1,5 @@
 <Solution>
   <Project Path="src/ApiGateway/ApiGateway.csproj" Id="4786fd74-9c98-4643-ae8f-d6431c87e2e2" />
-  <Project Path="src/OrdersApi.Client/OrdersApi.Client.csproj" Id="7e10a705-b24d-4861-9858-2d91cc45273e" />
   <Project Path="src/OrdersApi/OrdersApi.csproj" Id="de17d29e-3ecb-4cfb-9c6d-4714ad5be31e" />
   <Project Path="src/ProductsApi/ProductsApi.csproj" Id="968421de-258f-4440-a640-1bc515729ca2" />
 </Solution>

@@ -4,6 +4,6 @@ namespace ProductsApi.Contracts;
 public record ProductSummaryDto(
     Guid Id,
     string Name,
-    decimal Price,
+    double Price,
     int StockQuantity,
     Guid CategoryId);

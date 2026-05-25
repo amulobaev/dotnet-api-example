@@ -10,5 +10,5 @@ public class OrderLine
     public int Quantity { get; init; }
 
     /// <summary>Цена за единицу на момент создания заказа</summary>
-    public decimal UnitPrice { get; init; }
+    public double UnitPrice { get; init; }
 }
