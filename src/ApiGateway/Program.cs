@@ -25,7 +25,8 @@ public class Program
 
         builder.Services.AddRefitClient<IOrdersApi>()
             .ConfigureHttpClient(c =>
-                c.BaseAddress = new Uri(builder.Configuration["Services:Orders:BaseUrl"]!));
+                c.BaseAddress = new Uri(builder.Configuration["Services:Orders:BaseUrl"]!))
+            .AddStandardResilienceHandler();
 
         builder.Services.AddReverseProxy()
             .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
