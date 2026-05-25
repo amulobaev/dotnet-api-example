@@ -1,20 +1,49 @@
+using System.Reflection;
+using System.Text.Json.Serialization;
 using OrdersApi.Repositories;
 
-var builder = WebApplication.CreateBuilder(args);
+namespace OrdersApi;
 
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+internal class Program
+{
+    public static void Main(string[] args)
+    {
+        var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddSingleton<OrderRepository>();
+        ConfigureServices(builder);
 
-var app = builder.Build();
+        var app = builder.Build();
 
-// Swagger доступен во всех средах — ApiGateway скачивает спеку
-app.UseSwagger();
-app.UseSwaggerUI();
+        ConfigureApp(app);
 
-app.UseAuthorization();
-app.MapControllers();
+        app.Run();
+    }
 
-app.Run();
+    private static void ConfigureServices(WebApplicationBuilder builder)
+    {
+        builder.Services.AddControllers()
+            .AddJsonOptions(o =>
+                o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+
+        builder.Services.AddSwaggerGen(o =>
+            {
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                o.IncludeXmlComments(xmlPath);
+            });
+
+        builder.Services.AddSingleton<IOrderRepository, OrderRepository>();
+    }
+
+    private static void ConfigureApp(WebApplication app)
+    {
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI();
+        }
+
+        app.UseAuthorization();
+        app.MapControllers();
+    }
+}
