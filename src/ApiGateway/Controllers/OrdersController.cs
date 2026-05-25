@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using ApiGateway.Contracts.Orders;
+using OrdersApi.Client;
 using Refit;
 using System.Net;
 

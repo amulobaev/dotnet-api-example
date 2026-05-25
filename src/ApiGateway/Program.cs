@@ -1,4 +1,4 @@
-using ApiGateway.Contracts.Orders;
+using OrdersApi.Client;
 using Refit;
 
 namespace ApiGateway;

@@ -1,7 +1,7 @@
 {
-  "openApiPath": "contracts/OrdersApi/swagger.json",
+  "openApiPath": "swagger.json",
   "outputFolder": "obj/refitter",
-  "namespace": "ApiGateway.Contracts.Orders",
+  "namespace": "OrdersApi.Client",
   "naming": {
     "useOpenApiTitle": true
   },
