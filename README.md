@@ -11,7 +11,7 @@ PoC: межсервисное взаимодействие .NET 8 через **O
 | | NSwag | Refit + Refitter |
 |---|---|---|
 | Код клиента | Сотни строк, коммитится | 10 строк интерфейса, в `obj/` |
-| Тесты | `MockHttpMessageHandler` | `Substitute.For<IOrdersApi>()` |
+| Тесты | `MockHttpMessageHandler` | `new Mock<IOrdersApi>()` |
 | NuGet публикация | Нужна | Не нужна |
 | Обновление контракта | Ручной запуск + коммит портянки | Положил `swagger.json`, `dotnet build` |
 | Потребители не-.NET | Не используют | Берут ту же JSON-спеку |
@@ -24,7 +24,7 @@ PoC: межсервисное взаимодействие .NET 8 через **O
 
 **Читаемость.** NSwag генерирует сотни строк partial-классов, хелперов и внутренней кухни. Refit-интерфейс — 10 строк, которые любой прочитает за 30 секунд. Когда что-то сломается в 2 часа ночи — это важно.
 
-**Тесты без боли.** С NSwag нужен `MockHttpMessageHandler`, который мокает на уровне HTTP. С Refit — обычный `Substitute.For<IOrdersApi>()`. Меньше кода, проще читать, легче поддерживать.
+**Тесты без боли.** С NSwag нужен `MockHttpMessageHandler`, который мокает на уровне HTTP. С Refit — обычный `new Mock<IOrdersApi>()`. Меньше кода, проще читать, легче поддерживать.
 
 **Нет ручного шага.** Цикл с NSwag: скачал спеку → запустил генератор → проверил → закоммитил портянку → опубликовал NuGet. С Refitter — положил `swagger.json`, всё остальное при `dotnet build`.
 
@@ -188,11 +188,11 @@ Swagger UI:
 Refitter генерирует интерфейс — мокается напрямую без `MockHttpMessageHandler`:
 
 ```csharp
-var ordersApi = Substitute.For<IOrdersApi>();
-ordersApi.GetOrders(Arg.Any<string>(), Arg.Any<Guid?>())
-    .Returns(new List<OrderSummaryDto> { ... });
+var api = new Mock<IOrdersApi>();
+api.Setup(x => x.GetOrders(It.IsAny<string>(), It.IsAny<Guid?>()))
+   .ReturnsAsync(new List<OrderSummaryDto> { ... });
 
-var sut = new OrdersController(ordersApi);
+var sut = new OrdersController(api.Object);
 ```
 
 ## Resilience
