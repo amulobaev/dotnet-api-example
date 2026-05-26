@@ -1,0 +1,18 @@
+{
+  "openApiPath": "swagger.json",
+  "outputFolder": "obj/refitter",
+  "namespace": "OrdersApi.Client",
+  "naming": {
+    "useOpenApiTitle": true
+  },
+  "generateContracts": true,
+  "generateXmlDocCodeComments": true,
+  "codeGeneratorSettings": {
+    "excludedTypeNames": [
+      "ProblemDetails"
+    ]
+  },
+  "additionalNamespaces": [
+    "Microsoft.AspNetCore.Mvc"
+  ]
+}

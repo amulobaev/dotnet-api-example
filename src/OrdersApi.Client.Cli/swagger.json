@@ -1,0 +1,433 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "OrdersApi",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/orders": {
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Список заказов",
+        "operationId": "GetOrders",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Фильтр по статусу: Pending, Confirmed, Shipped, Cancelled",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "customerId",
+            "in": "query",
+            "description": "Фильтр по идентификатору покупателя",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OrderSummaryDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Создать заказ",
+        "operationId": "CreateOrder",
+        "requestBody": {
+          "description": "Данные нового заказа",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrderRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrderRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrderRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderDetailDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/orders/{id}": {
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Получить заказ по идентификатору",
+        "operationId": "GetOrder",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Идентификатор заказа",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderDetailDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Отменить заказ",
+        "description": "Нельзя отменить заказ в статусе Shipped или Cancelled.",
+        "operationId": "CancelOrder",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Идентификатор заказа",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/orders/{id}/status": {
+      "put": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Обновить статус заказа",
+        "description": "Допустимые переходы: Pending→Confirmed, Confirmed→Shipped, Pending/Confirmed→Cancelled.",
+        "operationId": "UpdateStatus",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Идентификатор заказа",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Целевой статус: Confirmed, Shipped или Cancelled",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStatusRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStatusRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStatusRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderDetailDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CreateOrderRequest": {
+        "type": "object",
+        "properties": {
+          "customerId": {
+            "type": "string",
+            "description": "Идентификатор покупателя",
+            "format": "uuid"
+          },
+          "lines": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderLineDto"
+            },
+            "description": "Позиции заказа (минимум одна)",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Запрос на создание заказа"
+      },
+      "OrderDetailDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Идентификатор заказа",
+            "format": "uuid"
+          },
+          "customerId": {
+            "type": "string",
+            "description": "Идентификатор покупателя",
+            "format": "uuid"
+          },
+          "status": {
+            "$ref": "#/components/schemas/OrderStatus"
+          },
+          "total": {
+            "type": "number",
+            "description": "Итоговая сумма",
+            "format": "double"
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Дата и время создания",
+            "format": "date-time"
+          },
+          "lines": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderLineDto"
+            },
+            "description": "Позиции заказа",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Детальная информация о заказе, включая позиции"
+      },
+      "OrderLineDto": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "string",
+            "description": "Идентификатор товара",
+            "format": "uuid"
+          },
+          "quantity": {
+            "type": "integer",
+            "description": "Количество (минимум 1)",
+            "format": "int32"
+          },
+          "unitPrice": {
+            "type": "number",
+            "description": "Цена за единицу",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Позиция заказа"
+      },
+      "OrderStatus": {
+        "enum": [
+          "Pending",
+          "Confirmed",
+          "Shipped",
+          "Cancelled"
+        ],
+        "type": "string",
+        "description": "Статус заказа"
+      },
+      "OrderSummaryDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Идентификатор заказа",
+            "format": "uuid"
+          },
+          "customerId": {
+            "type": "string",
+            "description": "Идентификатор покупателя",
+            "format": "uuid"
+          },
+          "status": {
+            "$ref": "#/components/schemas/OrderStatus"
+          },
+          "total": {
+            "type": "number",
+            "description": "Итоговая сумма",
+            "format": "double"
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Дата и время создания",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Краткая информация о заказе"
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": { }
+      },
+      "TargetOrderStatus": {
+        "enum": [
+          "Confirmed",
+          "Shipped",
+          "Cancelled"
+        ],
+        "type": "string",
+        "description": "Допустимые целевые статусы при ручном переходе (Pending недостижим вручную)"
+      },
+      "UpdateStatusRequest": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/TargetOrderStatus"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Запрос на обновление статуса заказа"
+      }
+    }
+  }
+}
