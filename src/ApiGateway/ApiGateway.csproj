@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OrdersApi.Client\OrdersApi.Client.csproj" />
+    <ProjectReference Include="..\OrdersApi.Client.Generated\OrdersApi.Client.Generated.csproj" />
   </ItemGroup>
 
 </Project>
